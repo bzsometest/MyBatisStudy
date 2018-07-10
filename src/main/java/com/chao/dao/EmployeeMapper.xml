@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chao.dao.EmployeeDao">   <!-- 命名空间，名字可以随意起，只要不冲突即可 -->
+    <!-- 对象映射，可以不写 -->
+    <!-- 查询功能，resultType 设置返回值类型 -->
+    <select id="selectOne" parameterType="String" resultType="com.chao.bean.EmployeeEntity">  <!-- 书写 SQL 语句 -->
+        SELECT * FROM employee where id =#{id}
+    </select>
+    <select id="selectAll" resultType="com.chao.bean.EmployeeEntity">
+        select * from employee
+    </select>
+
+    <!--新增-->
+    <select id="insert">
+       insert into employee values (#{id},#{name})
+    </select>
+
+    <!--修改-->
+    <select id="update">
+      update employee set name= #{name} where id = #{id}
+    </select>
+
+    <!--删除-->
+    <select id="delete">
+       delete from employee where id = #{id}
+    </select>
+
+    <!--多条件查询-->
+    <select id="queryList" resultType="com.chao.bean.EmployeeEntity">
+        select * from employee where id = #{param1} and  name like '${param2}%'
+    </select>
+
+    <!--多条件查询-->
+    <select id="queryList2" resultType="com.chao.bean.EmployeeEntity">
+        select * from employee where id = #{id} and  name like '${name}%'
+    </select>
+
+    <!--动态sql查询-->
+    <select id="queryByIf" resultType="com.chao.bean.EmployeeEntity">
+        select * from employee
+        <if test="name!=null">
+            where name like '${name}%'
+        </if>
+    </select>
+
+
+    <!--多条件查询-->
+    <select id="queryByChoose" resultType="com.chao.bean.EmployeeEntity">
+        select * from employee where 1=1
+        <choose>
+            <when test="name!=null">
+                and name like '${name}%'
+            </when>
+            <otherwise>
+                order by name
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--多条件查询ByTrim-->
+    <select id="queryByTrim" resultType="com.chao.bean.EmployeeEntity">
+        select * from employee
+        <trim prefix="where" prefixOverrides="and / OR">
+            <!--必须写and或者or,此方法存在问题-->
+            <if test="name!=null">
+                name like '${name}%'
+            </if>
+            <if test="address!=null">
+                and address like '${address}%'
+            </if>
+        </trim>
+    </select>
+
+    <!--多条件查询-->
+    <select id="queryByWhere" resultType="com.chao.bean.EmployeeEntity">
+        select * from employee
+        <where>
+            <!--必须写and或者or-->
+            <if test="name!=null">
+                and name like '${name}%'
+            </if>
+            <if test="address!=null">
+                and address like '${address}%'
+            </if>
+        </where>
+    </select>
+    <!--批量删除-->
+    <select id="deleteByList">
+        delete from employee where id in
+        <foreach collection="list" open="(" separator="," close=")" item="haha">
+            #{haha}
+        </foreach>
+    </select>
+    <!--批量删除-->
+    <select id="deleteByArray">
+        delete from employee where id in
+        <foreach collection="array" open="(" separator="," close=")" item="haha">
+            #{haha}
+        </foreach>
+    </select>
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--多表联合查询-->
+<mapper namespace="com.chao.dao.EmployeeDaoDept">   <!-- 命名空间，名字可以随意起，只要不冲突即可 -->
+
+    <!--id表示主键封装格式-->
+    <resultMap id="resultMap4" type="com.chao.bean.EmployeeEntity">
+        <id column="id" property="id"></id>
+        <association property="dept" javaType="com.chao.bean.Department">
+            <id column="d_id" property="d_id"></id>
+            <result column="d_name" property="d_name"></result>
+        </association>
+    </resultMap>
+
+    <!--id表示主键封装格式-->
+    <resultMap id="resultMap3" type="com.chao.bean.EmployeeEntity">
+        <id column="id" property="id"></id>
+        <result column="d_id" property="dept.d_id"></result>
+        <result column="d_name" property="dept.d_name"></result>
+    </resultMap>
+
+    <select id="selectAll3" resultMap="resultMap3">
+      select e.id  id,e.name name,e.address address,d.id d_id,d.name d_name
+         from employee e,depart d where e.d_id = d.id
+    </select>
+
+    <select id="selectAll4" resultMap="resultMap4">
+      select e.id  id,e.name name,e.address address,d.id d_id,d.name d_name
+         from employee e,depart d where e.d_id = d.id
+    </select>
+
+    <resultMap id="selectByStep" type="com.chao.bean.EmployeeEntity">
+        <id column="id" property="id"></id>
+        <!--想要分步查询还是要用association-->
+        <association property="dept" select="com.chao.dao.DepartmentDao.getById" column="d_id">
+        </association>
+    </resultMap>
+    <!--分步查询和延迟加载-->
+    <select id="selectStep" resultMap="selectByStep">
+           select * from employee where id= #{id}
+    </select>
+
+</mapper>
