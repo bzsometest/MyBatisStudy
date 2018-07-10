@@ -28,7 +28,7 @@ public class EmployeeDeptTest {
         // 调用 mapper 中的方法：命名空间 + id
         EmployeeDaoDept mapper = sqlSession.getMapper(EmployeeDaoDept.class);
 
-        List<EmployeeEntity> list = mapper.selectAll4();
+        List<EmployeeEntity> list = mapper.selectAll3();
         System.out.println(list);
 
     }

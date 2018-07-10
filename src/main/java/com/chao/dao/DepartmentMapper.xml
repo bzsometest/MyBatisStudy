@@ -6,6 +6,6 @@
 <mapper namespace="com.chao.dao.DepartmentDao">   <!-- 命名空间，名字可以随意起，只要不冲突即可 -->
     <!-- 对象映射，可以不写 -->
     <select id="getById" resultType="com.chao.bean.Department">
-        select  * from depart where id = #{id}
+        select *  from depart where d_id = #{d_id}
     </select>
 </mapper>

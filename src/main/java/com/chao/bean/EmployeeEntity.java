@@ -44,6 +44,7 @@ public class EmployeeEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
+                ", dept=" + dept +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.chao;
 
 import com.chao.bean.EmployeeEntity;
+import com.chao.dao.EmployeeDao;
 import com.chao.dao.EmployeeDaoDept;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -12,10 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-/**
- * 分步查询
- */
-public class EmployeeDeptTest2 {
+public class DelayTest {
 
     @Test
     public void wan() throws IOException {
@@ -28,7 +26,7 @@ public class EmployeeDeptTest2 {
         EmployeeDaoDept mapper = sqlSession.getMapper(EmployeeDaoDept.class);
 
         EmployeeEntity list = mapper.selectStep("2");
-        System.out.println(list);
-
+        System.out.println(list.getName());
+        System.out.println(list.getDept().getD_name());
     }
 }

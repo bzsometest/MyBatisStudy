@@ -11,5 +11,5 @@ public interface EmployeeDaoDept {
     public List<EmployeeEntity> selectAll4();
 
     //分步查询方法
-    public List<EmployeeEntity> selectStep(String id);
+    public EmployeeEntity selectStep(String id);
 }
